@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+ 
+.table-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+}
+ 
+.table-container {
+    border-radius: 10px;
+    padding: 28px;
+    margin-bottom: 2px;
+    margin-left: 8px;
+    margin-right: 8px;
+    background-color: white;
+    overflow-x: auto;
+    white-space: nowrap;
+    min-width: 100%;
+}
+
+#table {
+    border: 1px solid #c0c0c0;
+    border-radius: 10px;
+    text-align: center;
+    align-content: center;
+    width: 100%;
+}
+
+#table th {
+    text-align: center;
+}
+
+#table td {
+    vertical-align: middle;
+}
+
+.drop-area {
+    height: 300px; /* Adjust the height as needed */
+    width: 80%; /* Adjust the width as needed */
+    margin: 0 auto; /* Center horizontally */
+    padding: 20px; /* Add padding for better appearance */
+}
+
+.drop-area i.bi {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.drop-area p {
+    font-size: 18px;
+    margin: 0;
+}
+
+.drop-area.hover {
+    background-color: #e0e0e0;
+}
+
+.custom-file-input {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.hidden {
+    display: none;
+}
