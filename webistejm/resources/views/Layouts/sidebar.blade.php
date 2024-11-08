@@ -33,6 +33,12 @@
                 <span>History</span>
             </a>
         </li>
+        <li class="sidebar-item">
+            <a href="/upload" class="sidebar-link log-link">
+                <i class="lni lni-upload"></i>
+                <span>Upload</span>
+            </a>
+        </li>
         @auth('admin')
         <li class="sidebar-item">
             <a href="/user" class="sidebar-link">

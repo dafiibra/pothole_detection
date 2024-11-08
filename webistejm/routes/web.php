@@ -32,8 +32,12 @@ Route::middleware(['check.session'])->group(function () {
     //History
     Route::get('history', [HistoryController::class,'fetch_data'])->name('history.fetch_data');
     Route::post('history/update', [HistoryController::class, 'update'])->name('history.update');
-});
 
+    //Upload
+    Route::get('/upload', function () {
+        return view('upload');
+    });
+});
 
 //Login Route
 Route::get('/login', [AuthController::class, "Login"])->name("login");
