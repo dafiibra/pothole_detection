@@ -4,7 +4,7 @@
 <div class="col-12 col-md-4 mb-3">
     <div class="card text-black">
         <div class="card-body text-center">
-            <h5 class="mb-2 fw-bold">Total Temuan Jalan Berlubang</h5>
+            <h5 class="mb-2 fw-bold">Total Temuan Model</h5>
             <p class="card-text display-4" id="totalTemuanModel">{{ $data['totalTemuanModel'] ?? 'N/A' }}</p>
         </div>
     </div>
@@ -20,7 +20,7 @@
 <div class="col-12 col-md-4 mb-3">
     <div class="card text-black">
         <div class="card-body text-center">
-            <h5 class="mb-2 fw-bold">Akurasi </h5>
+            <h5 class="mb-2 fw-bold">Akurasi Model</h5>
             <p class="card-text display-4" id="akurasiModel">{{ $data['akurasiModel'] ?? 'N/A' }}%</p>
         </div>
     </div>
@@ -30,7 +30,7 @@
 <div class="col-md-6">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title fw-bold">Jumlah Temuan Jalan Berlubang</h5>
+            <h5 class="card-title fw-bold">Jumlah Temuan Model</h5>
             <canvas id="temuanChart"></canvas>
         </div>
     </div>
@@ -38,7 +38,7 @@
 <div class="col-md-6">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title fw-bold">Grafik</h5>
+            <h5 class="card-title fw-bold">Evaluation Metrics</h5>
             <canvas id="metricsChart"></canvas>
         </div>
     </div>
@@ -90,7 +90,7 @@
                 data: {
                     labels: [],
                     datasets: [{
-                        label: 'Total Temuan',
+                        label: 'Accuracy',
                         data: [],
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255, 99, 132, 1)',
@@ -98,7 +98,7 @@
                         radius: 5,
                         pointHoverRadius: 7
                     }, {
-                        label: 'Verified',
+                        label: 'Precision',
                         data: [],
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
@@ -106,7 +106,7 @@
                         radius: 5,
                         pointHoverRadius: 7
                     }, {
-                        label: 'Unverified',
+                        label: 'Recall',
                         data: [],
                         borderColor: 'rgb(75, 192, 192, 1)',
                         backgroundColor: 'rgb(75, 192, 192, 0.2)',
@@ -126,7 +126,7 @@
                 }
             });
 
-            console.log('Charts initialized:', temuanChart,); //metricsChart);
+            console.log('Charts initialized:', temuanChart, metricsChart);
         }
 
         // Fetch Current Year Data
