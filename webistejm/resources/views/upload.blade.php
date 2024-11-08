@@ -1,4 +1,4 @@
-@extends('layouts.upload_page')
+    @extends('layouts.upload_page')
 
 @section('title', 'Upload Pothole Report')
 

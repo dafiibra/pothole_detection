@@ -35,17 +35,14 @@
         <div class="main">
             <nav class="navbar navbar-expand px-4 py-3 d-flex bg-white">
                 <div class="navbar-collapse collapse">
-                    <h3 class="fw-bold">Dashboard Visual AI Pothole Detection</h3>
+                    <h3 class="fw-bold">Dashboard Visual Pothole Reporting</h3>
                 </div>
                 <span class="navbar-text me-3 fw-bold">Hello, {{ session('user')['username'] }}</span> <!-- Display username -->
-                <img src="{{ asset('img/logo.png') }}" alt="My Image" style="width: 50px; height: auto; float: right;">
             </nav>
             <main class="content px-3 py-4">
-                <div class="container-fluid">
+                <div class="container-fluid">   
                     <div class="mb-3">
-                        <div class="row mb-3">
-                            @include('layouts.validation_filter')
-                        </div>
+                     
                         <div class="row">
                             @yield('content')
                         </div>

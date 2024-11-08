@@ -18,7 +18,7 @@
         <div class="login">
             <form method="post" action="{{route('register.post')}}">
                 @csrf
-              <h2>Hi Roadster!</h2>
+              <h2>Hi There!</h2>
               <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>

@@ -15,26 +15,21 @@
                 <span>Dashboard</span>
             </a>
         </li>
+
         <li class="sidebar-item">
-            <a href="" class="sidebar-link log-link" data-activity="Upload Page Accessed">
-                <i class="lni lni-dashboard"></i>
-                <span>Upload</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="/validation" class="sidebar-link log-link" data-activity="Validation Page Accessed">
+            <a href="/validationn" class="sidebar-link log-link" data-activity="Validation Page Accessed">
                 <i class="lni lni-check-box"></i>
                 <span>Validation</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="/history" class="sidebar-link log-link" data-activity="History Page Accessed">
+            <a href="/historyy" class="sidebar-link log-link" data-activity="History Page Accessed">
                 <i class="lni lni-folder"></i>
                 <span>History</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="/upload" class="sidebar-link log-link">
+            <a href="/upload" class="sidebar-link log-link" data-activity="Upload Page Accessed">
                 <i class="lni lni-upload"></i>
                 <span>Upload</span>
             </a>
