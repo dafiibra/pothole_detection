@@ -16,6 +16,12 @@
             </a>
         </li>
         <li class="sidebar-item">
+            <a href="" class="sidebar-link log-link" data-activity="Upload Page Accessed">
+                <i class="lni lni-dashboard"></i>
+                <span>Upload</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
             <a href="/validation" class="sidebar-link log-link" data-activity="Validation Page Accessed">
                 <i class="lni lni-check-box"></i>
                 <span>Validation</span>
