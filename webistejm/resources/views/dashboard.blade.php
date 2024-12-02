@@ -4,30 +4,30 @@
 <div class="col-12 col-md-4 mb-3">
     <div class="card text-black">
         <div class="card-body text-center">
-            <h5 class="mb-2 fw-bold">Total Temuan Model</h5>
-            <p class="card-text display-4" id="totalTemuanModel">{{ $data['totalTemuanModel'] ?? 'N/A' }}</p>
+            <h5 class="mb-2 fw-bold">Total Laporan</h5>
+            <p class="card-text display-4" id="totalLaporan">{{ $data['totalLaporan'] }}</p>
         </div>
     </div>
 </div>
 <div class="col-12 col-md-4 mb-3">
     <div class="card text-black">
         <div class="card-body text-center">
-            <h5 class="mb-2 fw-bold">True Pothole</h5>
-            <p class="card-text display-4" id="truePothole">{{ $data['truePothole'] ?? 'N/A' }}</p>
+            <h5 class="mb-2 fw-bold">Laporan Approved</h5>
+            <p class="card-text display-4" id="laporanApproved">{{ $data['laporanDiterima'] }}</p>
         </div>
     </div>
 </div>
 <div class="col-12 col-md-4 mb-3">
     <div class="card text-black">
         <div class="card-body text-center">
-            <h5 class="mb-2 fw-bold">Akurasi Model</h5>
-            <p class="card-text display-4" id="akurasiModel">{{ $data['akurasiModel'] ?? 'N/A' }}%</p>
+            <h5 class="mb-2 fw-bold">Persentase Laporan Approved</h5>
+            <p class="card-text display-4" id="prctgLaporanApproved">{{ $data['persentaseLaporanDiterima'] }}%</p>
         </div>
     </div>
 </div>
 
 <!-- Charts -->
-<div class="col-md-6">
+<div class="col-md-12">
     <div class="card">
         <div class="card-body">
             <h5 class="card-title fw-bold">Jumlah Temuan Model</h5>
@@ -35,14 +35,14 @@
         </div>
     </div>
 </div>
-<div class="col-md-6">
+{{-- <div class="col-md-6">
     <div class="card">
         <div class="card-body">
             <h5 class="card-title fw-bold">Evaluation Metrics</h5>
             <canvas id="metricsChart"></canvas>
         </div>
     </div>
-</div>
+</div> --}}
 
 <!-- JS Libraries -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -55,20 +55,20 @@
         // Initialize Charts
         function initializeCharts() {
             const ctxTemuan = document.getElementById('temuanChart').getContext('2d');
-            const ctxMetrics = document.getElementById('metricsChart').getContext('2d');
+            // const ctxMetrics = document.getElementById('metricsChart').getContext('2d');
 
             temuanChart = new Chart(ctxTemuan, {
                 type: 'bar',
                 data: {
                     labels: [],
                     datasets: [{
-                        label: 'Total Temuan',
+                        label: 'Total Laporan',
                         data: [],
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
                     }, {
-                        label: 'Verified',
+                        label: 'Approved',
                         data: [],
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
@@ -85,46 +85,46 @@
                 }
             });
 
-            metricsChart = new Chart(ctxMetrics, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: 'Accuracy',
-                        data: [],
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        fill: false,
-                        radius: 5,
-                        pointHoverRadius: 7
-                    }, {
-                        label: 'Precision',
-                        data: [],
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        fill: false,
-                        radius: 5,
-                        pointHoverRadius: 7
-                    }, {
-                        label: 'Recall',
-                        data: [],
-                        borderColor: 'rgb(75, 192, 192, 1)',
-                        backgroundColor: 'rgb(75, 192, 192, 0.2)',
-                        fill: false,
-                        radius: 5,
-                        pointHoverRadius: 7
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100
-                        }
-                    }
-                }
-            });
+            // metricsChart = new Chart(ctxMetrics, {
+            //     type: 'line',
+            //     data: {
+            //         labels: [],
+            //         datasets: [{
+            //             label: 'Accuracy',
+            //             data: [],
+            //             backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            //             borderColor: 'rgba(255, 99, 132, 1)',
+            //             fill: false,
+            //             radius: 5,
+            //             pointHoverRadius: 7
+            //         }, {
+            //             label: 'Precision',
+            //             data: [],
+            //             backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            //             borderColor: 'rgba(54, 162, 235, 1)',
+            //             fill: false,
+            //             radius: 5,
+            //             pointHoverRadius: 7
+            //         }, {
+            //             label: 'Recall',
+            //             data: [],
+            //             borderColor: 'rgb(75, 192, 192, 1)',
+            //             backgroundColor: 'rgb(75, 192, 192, 0.2)',
+            //             fill: false,
+            //             radius: 5,
+            //             pointHoverRadius: 7
+            //         }]
+            //     },
+            //     options: {
+            //         responsive: true,
+            //         scales: {
+            //             y: {
+            //                 beginAtZero: true,
+            //                 max: 100
+            //             }
+            //         }
+            //     }
+            // });
 
             console.log('Charts initialized:', temuanChart, metricsChart);
         }

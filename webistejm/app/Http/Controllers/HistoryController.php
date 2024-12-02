@@ -50,7 +50,7 @@ class HistoryController extends Controller
     {
         // Validate the input
         $request->validate([
-            'id_deteksi' => 'required|string|exists:data_hasil_deteksi,id_deteksi',
+            'id_deteksi' => 'required|string|exists:upload,id',
             'progress' => 'required|in:0%,50%,100%',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:40960'
         ]);
