@@ -50,13 +50,13 @@ class HistoryController extends Controller
     {
         // Validate the input
         $request->validate([
-            'id_deteksi' => 'required|string|exists:upload,id',
+            'id' => 'required|integer|exists:upload,id',
             'progress' => 'required|in:0%,50%,100%',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:40960'
         ]);
 
         // Find the item by ID
-        $item = Upload::findOrFail($request->id_deteksi);
+        $item = Upload::findOrFail($request->id);
 
         // Update the repair progress field
         $progress = $request->input('progress');
@@ -74,7 +74,7 @@ class HistoryController extends Controller
                 $item->fifty_pct_update_timestamp = now();
             } elseif ($progress === '100%') {
                 $path = $file->storeAs('uploads/onehudpct', $filename, 'public');
-                $item->onehud_pct_image_url = '/storage/' . $path;
+                $item->onehud_pct_image_url = '/storage/' . $path;  
                 $item->onehud_pct_update_timestamp = now();
             }
 
@@ -91,6 +91,50 @@ class HistoryController extends Controller
 
         // Return a success response
         return response()->json(['success' => 'Progress updated successfully']);
+
+        // // Validate the input
+        // $request->validate([
+        //     'id' => 'required|integer|exists:upload,id',
+        //     'progress' => 'required|in:0%,50%,100%',
+        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:40960'
+        // ]);
+
+        // // Find the item by ID
+        // $item = Upload::findOrFail($request->id);
+
+        // // Update the repair progress field
+        // $progress = $request->input('progress');
+        // $item->repair_progress = intval(str_replace('%', '', $progress));
+
+        // // Handle the image upload
+        // if ($request->hasFile('image')) {
+        //     $file = $request->file('image');
+        //     $filename = time() . '_' . $file->getClientOriginalName();
+        //     $path = '';
+
+        //     if ($progress === '50%') {
+        //         $path = $file->storeAs('uploads/fiftypct', $filename, 'public');
+        //         $item->fifty_pct_image_url = '/storage/' . $path;
+        //         $item->fifty_pct_update_timestamp = now();
+        //     } elseif ($progress === '100%') {
+        //         $path = $file->storeAs('uploads/onehudpct', $filename, 'public');
+        //         $item->onehud_pct_image_url = '/storage/' . $path;
+        //         $item->onehud_pct_update_timestamp = now();
+        //     }
+
+        //     if ($path) {
+        //         $this->compressImageDynamically($file, $path);
+        //     }
+        // }
+
+        // // Save the updated item to the database
+        // $item->save();
+
+        // // update the updated_at
+        // $item->touch();
+
+        // // Return a success response
+        // return response()->json(['success' => 'Progress updated successfully']);
     }
 
     private function compressImageDynamically($file, $path)

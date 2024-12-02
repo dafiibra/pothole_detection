@@ -32,7 +32,7 @@
     <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form id="updateForm" enctype="multipart/form-data" action="{{ route('history.update') }}" method="post">
+            <form id="updateForm" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -42,7 +42,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" id="updateId" name="id_deteksi">
+                        <input type="hidden" id="updateId" name="id">
                         <div class="form-group">
                             <label for="progress">Progress</label>
                             <select id="progress" name="progress" class="form-control">
@@ -143,8 +143,7 @@
                                 var progressbtn = '';
                                 if (progress === 0 || progress === 50) {
                                     progressbtn =
-                                        '<button type="button" class="btn btn-primary btn-sm update-btn" data-id="' +
-                                        row.id + '">Update</button>';
+                                        '<button type="button" class="btn btn-primary btn-sm update-btn" data-id="' + row.id + '">Update</button>';
                                 }
 
                                 var cell = '<p>' + data.repair_progress + '%</p>' +
@@ -159,11 +158,9 @@
                                 var image = '';
 
                                 if (progress === 50 && row.fifty_pct_image_url) {
-                                    image = '<img src="' + row.fifty_pct_image_url +
-                                        '" alt="50% Progress Image" style="max-height: 200px;">';
+                                    image = '<img src="' + row.fifty_pct_image_url + '" alt="50% Progress Image" style="max-height: 200px;">';
                                 } else if (progress === 100 && row.onehud_pct_image_url) {
-                                    image = '<img src="' + row.onehud_pct_image_url +
-                                        '" alt="100% Progress Image" style="max-height: 200px;">';
+                                    image = '<img src="' + row.onehud_pct_image_url + '" alt="100% Progress Image" style="max-height: 200px;">';
                                 }
 
                                 return image;
@@ -181,8 +178,7 @@
                                 if (timestamp) {
                                     // Format timestamp ke date (YYYY-MM-DD)
                                     var date = new Date(timestamp);
-                                    return date.toISOString().split('T')[
-                                        0]; // Mengembalikan dalam format YYYY-MM-DD
+                                    return date.toISOString().split('T')[0]; // Mengembalikan dalam format YYYY-MM-DD
                                 } else {
                                     return null;
                                 }
@@ -203,80 +199,32 @@
 
             $(document).on('click', '.update-btn', function() {
                 var data = $('#table').DataTable().row($(this).closest('tr'))
-                    .data(); // Get data of the clicked row
-                var id_deteksi = data.id_deteksi; // Access the id_deteksi from the row data
-                $('#updateId').val(id_deteksi);
-
-                // Log activity when update button is clicked
-                axios.post('{{ route('log.activity') }}', {
-                        activity_name: 'History Update Button Clicked',
-                        id_deteksi: id_deteksi,
-                        _token: csrfToken
-                    })
-                    .then(response => {
-                        console.log('Activity logged successfully');
-                    })
-                    .catch(error => {
-                        console.error('Error logging activity:', error);
-                    });
-
+            .data(); // Get data of the clicked row
+                var id = data.id; // Access the id from the row data
+                $('#updateId').val(id);
                 $('#updateModal').modal('show');
             });
 
             $('#updateForm').on('submit', function(e) {
                 e.preventDefault();
-
-                var formData = new FormData(this);
-
+                var formData = new FormData($('#updateForm')[0]);
                 $.ajax({
-                    url: $(this).attr('action'),
-                    method: 'POST',
+                    type: 'POST',
+                    url: '{{ route('history.update') }}',
                     data: formData,
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        alert(response.success); // Tampilkan pesan sukses
-                        $('#updateModal').modal('hide'); // Tutup modal
-                        $('#table').DataTable().ajax.reload(); // Reload tabel
+                        $('#updateModal').modal('hide');
+                        $('#table').DataTable().ajax.reload();
                     },
-                    error: function(xhr) {
-                        alert('Error: ' + xhr.responseJSON.message); // Tampilkan pesan error
+                    error: function(xhr, status, error) { // Improved error handling
+                        var errorMessage = xhr.responseJSON ? xhr.responseJSON.message :
+                            'Error occurred during request';
+                        console.error('Error:', errorMessage);
+                        // Display error message to the user or take appropriate action
                     }
                 });
-                // e.preventDefault();
-                // var formData = new FormData($('#updateForm')[0]);
-                // var id_deteksi = $('#updateId').val();
-
-                // $.ajax({
-                //     type: 'POST',
-                //     url: '{{ route('history.update') }}',
-                //     data: formData,
-                //     processData: false,
-                //     contentType: false,
-                //     success: function(response) {
-                //         // Log activity when update is confirmed
-                //         axios.post('{{ route('log.activity') }}', {
-                //                 activity_name: 'History Update Confirmed',
-                //                 id: id,
-                //                 _token: csrfToken
-                //             })
-                //             .then(response => {
-                //                 console.log('Activity logged successfully');
-                //             })
-                //             .catch(error => {
-                //                 console.error('Error logging activity:', error);
-                //             });
-
-                //         $('#updateModal').modal('hide');
-                //         $('#table').DataTable().ajax.reload();
-                //     },
-                //     error: function(xhr, status, error) { // Improved error handling
-                //         var errorMessage = xhr.responseJSON ? xhr.responseJSON.message :
-                //             'Error occurred during request';
-                //         console.error('Error:', errorMessage);
-                //         // Display error message to the user or take appropriate action
-                //     }
-                // });
             });
 
             // Drag and drop functionality
@@ -337,15 +285,6 @@
             $('#updateModal').on('hidden.bs.modal', function() {
                 resetFields();
             });
-
-            $('#updateModal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget); // Tombol yang memicu modal
-                var id = button.data('id'); // Ambil ID dari atribut data-id
-
-                // Set nilai id_deteksi
-                $('#updateId').val(id);
-            });
-
 
         });
     </script>
