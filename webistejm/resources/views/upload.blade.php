@@ -3,37 +3,37 @@
 @section('title', 'Upload Pothole Report')
 
 @section('content')
-    
+
+<form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
     <div class="mb-3">
-        <label for="formFileMultiple" class="form-label">Input Gambar</label>
-        <input class="form-control" type="file" id="formFileMultiple" multiple>
-      </div>
-    <div class="row g-2 pb-3">
-        <div class="col-md">
-            <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInputGrid" placeholder="name@example.com"
-                    value="">
-                <label for="floatingInputGrid">Longitude</label>
-            </div>
+        <label for="image" class="form-label">Input Gambar</label>
+        <input class="form-control" type="file" id="image" name="image[]" multiple required>
+    </div>
+    
+    <div class="row text-left">
+        <div class="col-md-6 mb-3">
+            <label for="tanggal" class="form-label fw-bold">Tanggal</label>
+            <input type="date" name="tanggal" id="tanggal" class="form-control" required />
         </div>
-        <div class="col-md">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input type="email" class="form-control" id="floatingInputGrid" placeholder="name@example.com"
-                        value="">
-                    <label for="floatingInputGrid">Latitude</label>
-                </div>
-            </div>
+        
+        <div class="col-md-6 mb-3">
+            <label for="area" class="form-label fw-bold">Area</label>
+            <select name="area" id="area" class="form-select" required>
+                <option value="" disabled selected>Choose</option>
+                <option value="All">All</option>
+                @foreach($areas as $area)
+                    <option value="{{ $area }}">{{ $area }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
-    <div class="form-floating">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-        <label for="floatingTextarea">Comment</label>
+    <div class="mb-3">
+        <label for="coordinate" class="form-label fw-bold">Coordinate</label>
+        <input type="text" class="form-control" id="coordinate" name="coordinate" required>
     </div>
-    <div class="mybtns">
-        <button type="button" class="btn btn-primary">Save</button>
-        <button onclick="close_box()" type="button" class="btn btn-outline-dark">Close</button>
-    </div>
-</div>
-  
+
+    <button class="btn btn-primary">Upload Report</button>
+</form>
+
 @endsection

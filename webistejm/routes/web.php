@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ValidationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ForgetPasswordManager;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\LogActivityController;
@@ -34,9 +35,8 @@ Route::middleware(['check.session'])->group(function () {
     Route::post('history/update', [HistoryController::class, 'update'])->name('history.update');
 
     //Upload
-    Route::get('/upload', function () {
-        return view('upload');
-    });
+    Route::get('/upload', [UploadController::class, 'index'])->name('upload');
+    Route::post('/upload/store', [UploadController::class, 'store'])->name('upload.store');
 });
 
 //Login Route

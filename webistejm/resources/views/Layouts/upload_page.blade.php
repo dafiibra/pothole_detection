@@ -43,9 +43,6 @@
             <main class="content px-3 py-4">
                 <div class="container-fluid">
                     <div class="mb-3">
-                        <div class="row mb-3">
-                            @include('layouts.validation_filter')
-                        </div>
                         <div class="row">
                             @yield('content')
                         </div>
