@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Inspeksi;
 use App\Models\DataHasilDeteksi;
+use App\Models\Upload;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +18,9 @@ class DashboardController extends Controller
         $currentYear = Carbon::now()->year;
 
         // Fetch inspeksi data for the current year
-        $inspeksi = Inspeksi::whereYear('tanggal_inspeksi', $currentYear)->get();
-        $inspeksiIds = $inspeksi->pluck('id_inspeksi');
-        $dataHasilDeteksi = DataHasilDeteksi::whereIn('id_inspeksi', $inspeksiIds)->get();
+        $inspeksi = Upload::whereYear('tanggal', $currentYear)->get();
+        $inspeksiIds = $inspeksi->pluck('id');
+        $dataHasilDeteksi = Upload::whereIn('id', $inspeksiIds)->get();
 
         if (!session()->has('user')) {
             return redirect()->route('login')->with('error', 'Session expired, please login again.');

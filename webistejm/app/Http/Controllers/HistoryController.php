@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\DataHasilDeteksi;
 use App\Models\Inspeksi;
+use App\Models\Upload;
 use DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -21,13 +22,10 @@ class HistoryController extends Controller
         $user = session('user');
 
         if ($request->ajax()) {
-            $dataQuery = DB::table('data_hasil_deteksi')
-            ->leftJoin('inspeksi', 'data_hasil_deteksi.id_inspeksi', '=', 'inspeksi.id_inspeksi')
-            ->where('data_hasil_deteksi.is_valid', 'approved')
-            ->select('data_hasil_deteksi.*', 'inspeksi.tanggal_inspeksi', 'inspeksi.area');
+            $dataQuery = DB::table('upload')->where('upload.is_valid', 'approved');
 
             if ($request->area && $request->area != 'All') {
-                $dataQuery->where('inspeksi.area', $request->area);
+                $dataQuery->where('upload.area', $request->area);
             }
 
             if ($request->repair_progress != 'All') {
@@ -37,7 +35,7 @@ class HistoryController extends Controller
             if ($request->from_date && $request->to_date) {
                 $startDate = Carbon::parse($request->from_date)->startOfDay();
                 $endDate = Carbon::parse($request->to_date)->endOfDay();
-                $dataQuery->whereBetween('inspeksi.tanggal_inspeksi', [$startDate, $endDate]);
+                $dataQuery->whereBetween('upload.tanggal', [$startDate, $endDate]);
             }
 
             $data = $dataQuery->get();
@@ -58,7 +56,7 @@ class HistoryController extends Controller
         ]);
 
         // Find the item by ID
-        $item = DataHasilDeteksi::findOrFail($request->id_deteksi);
+        $item = Upload::findOrFail($request->id_deteksi);
 
         // Update the repair progress field
         $progress = $request->input('progress');

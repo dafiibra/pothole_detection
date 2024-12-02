@@ -14,10 +14,11 @@
                   <tr class="table-row">
                     <th scope="col">No.</th>
                     <th scope="col">Image</th>
-                    <th scope="col">ID</th>
-                    <th scope="col">latlong</th>
+                    <th scope="col">Coordinate</th>
+                    <th scope="col">Report Date</th>
                     <th scope="col">Repair Progress</th>
                     <th scope="col">Repair Evidence</th>
+                    <th scope="col">Repair Evidence Date</th>
                   </tr>
                 </thead>
               </table>
@@ -116,16 +117,17 @@
             data:'image_url',
             name:'image_url',
             "render": function (data, type, row, meta) {
-              return '<img src="' + data + '" alt="Image">';
+              const imageUrl = `{{ asset('storage/${data}') }}`;
+              return `<img src="${imageUrl}" alt="Image">`;
             }
           },
           {
-            data:'id_deteksi',
-            name:'id_deteksi'
+            data:'coordinate',
+            name:'coordinate'
           },
           {
-            data:'latlong',
-            name:'latlong'
+            data:'tanggal',
+            name:'tanggal'
           },
           {
               data: null,
@@ -134,7 +136,7 @@
 
                   var progressbtn = '';
                   if (progress === 0 || progress === 50) {
-                      progressbtn = '<button type="button" class="btn btn-primary btn-sm update-btn" data-id="' + row.id_deteksi + '">Update</button>';
+                      progressbtn = '<button type="button" class="btn btn-primary btn-sm update-btn" data-id="' + row.id + '">Update</button>';
                   }
 
                   var cell = '<p>' + data.repair_progress + '%</p>' +
@@ -156,6 +158,10 @@
 
                   return image;
               }
+          },
+          {
+            data: 'fifty_pct_update_timestamp|onehud_pct_update_timestamp',
+            name: ''
           }
         ]
       });
@@ -206,7 +212,7 @@
           // Log activity when update is confirmed
           axios.post('{{ route('log.activity') }}', {
               activity_name: 'History Update Confirmed',
-              id_deteksi: id_deteksi,
+              id: id,
               _token: csrfToken
           })
           .then(response => {

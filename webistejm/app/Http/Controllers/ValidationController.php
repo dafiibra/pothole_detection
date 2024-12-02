@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\DataHasilDeteksi;
+use App\Models\Upload;
 use App\Models\Inspeksi;
 use DataTables;
 use Illuminate\Support\Facades\DB;
@@ -20,19 +21,16 @@ class ValidationController extends Controller
         $user = session('user');
 
         if($request->ajax()) {
-            $dataQuery = DB::table('data_hasil_deteksi')
-            ->leftJoin('inspeksi', 'data_hasil_deteksi.id_inspeksi', '=', 'inspeksi.id_inspeksi')
-            ->where('data_hasil_deteksi.is_valid', 'requested')
-            ->select('data_hasil_deteksi.*', 'inspeksi.tanggal_inspeksi', 'inspeksi.area');
+            $dataQuery = DB::table('upload')->where('is_valid', 'requested');;
         
             if ($request->area && $request->area != 'All') {
-                $dataQuery->where('inspeksi.area', $request->area);
+                $dataQuery->where('upload.area', $request->area);
             }
             
             if ($request->from_date && $request->to_date) {
                 $startDate = Carbon::parse($request->from_date)->startOfDay();
                 $endDate = Carbon::parse($request->to_date)->endOfDay();
-                $dataQuery->whereBetween('inspeksi.tanggal_inspeksi', [$startDate, $endDate]);
+                $dataQuery->whereBetween('upload.tanggal', [$startDate, $endDate]);
             }
             
             $data = $dataQuery->get();
@@ -47,7 +45,7 @@ class ValidationController extends Controller
     public function approveResult($id_deteksi)
     {
         $user = session('user');
-        $result = DataHasilDeteksi::findOrFail($id_deteksi);
+        $result = Upload::findOrFail($id_deteksi);
         $result->is_valid = "approved";
         $result->validated_by = $user->username;
         $result->validated_timestamp = now();   
@@ -60,7 +58,7 @@ class ValidationController extends Controller
     public function rejectResult($id_deteksi)
     {
         $user = session('user');
-        $result = DataHasilDeteksi::findOrFail($id_deteksi);
+        $result = Upload::findOrFail($id_deteksi);
         $result->is_valid = "rejected";
         $result->validated_by = $user->username;
         $result->validated_timestamp = now();

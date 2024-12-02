@@ -8,7 +8,7 @@
     @csrf
     <div class="mb-3">
         <label for="image" class="form-label">Input Gambar</label>
-        <input class="form-control" type="file" id="image" name="image[]" multiple required>
+        <input class="form-control" type="file" id="image" name="image">
     </div>
     
     <div class="row text-left">
