@@ -22,7 +22,7 @@
                             <select name="area" id="area" class="form-select">
                                 <option value="">Choose</option>
                                 <option value="All">All</option>
-                                @foreach(\App\Constants\GlobalConstants::AREAS as $area)
+                                @foreach($areas as $area)
                                 <option value="{{$area}}">{{$area}}</option>
                                 @endforeach
                             </select>

@@ -21,6 +21,23 @@ class HistoryController extends Controller
     {
         $user = session('user');
 
+        $areas = [
+            'Sibanceh', 'Binangsa', 'Mebi', 'Belmera', 'MKTT', 'Rapatsar', 'Permai',
+            'Palindra', 'Kapalbetung', 'Terpeka', 'Bakter', 'Merak', 'Serpan', 'Serbaraja',
+            'Semaraja', 'JORR 3 / Kataraja', 'Pakutan', 'Jagorawi', 'Japek', 'Jalan Layang MBZ',
+            'Ulujami-Serpong', 'Akses Tol Bandara', 'JIRR', 'JIRR 2', 'JORR S', 'JORR E', 'JORR W1',
+            'JORR W2', 'JORR 2 / CBK', 'JORR 2 / Kunser', 'JORR 2 / Sercin', 'JORR 2 / Cijago',
+            'JORR 2 / Cimaci', 'JORR 2 / Cibicil', 'Akses Tanjung Priok', 'Harbour Road II', 'Desari',
+            'Becakayu', 'BOSER', 'Sejokara', 'BORR', 'Bocimi', 'Cipularang', 'Padaleunyi', 'Cipali',
+            'Palikanci', 'Cijagan', 'Soroja', 'Cisumdawu', 'Japek II Selatan', 'Getaci', 'Pajang',
+            'Pematang', 'Batarang', 'Somar', 'Soker', 'Kermo', 'Sumo', 'Surgres', 'Surgem', 'Warunda',
+            'KLBM', 'Gempan', 'Mapan', 'Gempas', 'Paspro', 'Probowangi', 'Prolajang', 'Bali Mandara',
+            'Tol Bali Barat', 'Balsam', 'Jembatan Teluk Balikpapan', 'Jalan Reformasi', 'Jalan IR Sutami',
+            'Tol Layang Pettarani', 'Bima'
+        ];
+
+        sort($areas);
+
         if ($request->ajax()) {
             $dataQuery = DB::table('upload')->where('upload.is_valid', 'approved');
 
@@ -43,7 +60,7 @@ class HistoryController extends Controller
             return datatables()->of($data)->make(true);
         }
 
-        return view(('history'), compact('user'));
+        return view(('history'), compact('user' , 'areas'));
     }
 
     public function update(Request $request)
